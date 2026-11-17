@@ -1,0 +1,228 @@
+# CyberAI-SOC – Project Setup & Development Notes
+
+## 1. Project Overview
+
+CyberAI-SOC is a Python-based cybersecurity log analysis project that uses a locally running Ollama AI model to analyze security logs and generate SOC-style reports.
+
+The project processes sample security events, identifies suspicious patterns, summarizes potential security risks, and generates a text-based analysis report.
+
+## 2. Prerequisites
+
+Install the following:
+
+- Python 3.x
+- Ollama
+- Git (optional, for GitHub)
+- A compatible local Ollama model (Llama 3.2:3b used in this project)
+
+## 3. Install Ollama
+
+1. Download and install Ollama from https://ollama.com/
+2. Open Command Prompt.
+3. Download the model:
+
+```bash
+ollama pull llama3.2:3b
+```
+
+4. Verify the installed model:
+
+```bash
+ollama list
+```
+
+5. Ensure the Ollama service is running.
+
+The project communicates with Ollama through its local API:
+
+`http://localhost:11434/api/generate`
+
+## 4. Create the Project Directory
+
+Create the following folder structure:
+
+```text
+CyberAI-SOC/
+│
+├── src/
+│   └── analyzer.py
+│
+├── logs/
+│   └── sample_logs.txt
+│
+├── reports/
+│
+├── requirements.txt
+├── README.md
+├── PROJECT_SETUP.md
+└── .gitignore
+```
+
+## 5. Create a Python Virtual Environment
+
+Open Command Prompt inside the project directory.
+
+Create the environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+A virtual environment keeps project dependencies separate from the system Python installation.
+
+## 6. Install Python Dependencies
+
+Create a file named `requirements.txt`.
+
+Add:
+
+```text
+requests==2.32.5
+```
+
+Install the dependency:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Dependency Explanation
+
+- `requests`: Sends HTTP requests to the locally running Ollama API.
+- `pathlib`: Built-in Python library for file and directory handling.
+- `datetime`: Built-in Python library for timestamps and report naming.
+
+Only external Python packages need to be listed in `requirements.txt`.
+
+## 7. Configure the Python Analyzer
+
+Inside `src/analyzer.py`, configure:
+
+- Project directory paths.
+- Sample log file location.
+- Report output directory.
+- Ollama API endpoint.
+- Ollama model name.
+
+Example configuration:
+
+```python
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL = "llama3.2:3b"
+```
+
+The analyzer reads security logs, sends the relevant content to Ollama, receives the AI-generated analysis, and saves the result as a report.
+
+## 8. Prepare Sample Security Logs
+
+Create `sample_logs.txt` inside the `logs` folder.
+
+Include sample security events such as:
+
+- Successful login events.
+- Multiple failed login attempts.
+- Suspicious authentication activity.
+- Unusual access patterns.
+
+Use fictional usernames and IP addresses. Never publish confidential or real personal information.
+
+## 9. Run the Project
+
+First, activate the virtual environment:
+
+```bash
+venv\Scripts\activate
+```
+
+Ensure Ollama is running and the required model is available.
+
+Navigate to the project directory and execute:
+
+```bash
+python src/analyzer.py
+```
+
+The program reads the sample logs, communicates with Ollama, processes the AI response, and generates a report in the `reports` directory.
+
+## 10. View Generated Reports
+
+Open the `reports` folder.
+
+Generated reports contain the AI's interpretation of the security events, including:
+
+- Summary of detected events.
+- Suspicious activity observations.
+- Potential security risks.
+- Possible explanations for unusual activity.
+
+AI-generated findings are preliminary observations, not verified security incidents. They require human validation.
+
+## 11. GitHub Preparation
+
+Before uploading the project, create a `.gitignore` file:
+
+```gitignore
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# IDE settings
+.vscode/
+```
+
+Do not upload virtual environment folders, installed package files, confidential logs, or sensitive reports.
+
+Upload only the necessary source code, documentation, safe sample logs, and sanitized demonstration reports.
+
+## 12. Important Commands Reference
+
+| Purpose | Command |
+|---|---|
+| Create environment | `python -m venv venv` |
+| Activate environment | `venv\Scripts\activate` |
+| Install dependencies | `pip install -r requirements.txt` |
+| Check installed packages | `pip list` |
+| Check Ollama models | `ollama list` |
+| Run analyzer | `python src/analyzer.py` |
+| Deactivate environment | `deactivate` |
+
+## 13. Project Limitations
+
+- Analysis depends on the quality and completeness of the input logs.
+- AI-generated explanations may contain incorrect assumptions.
+- The project currently uses sample logs rather than a live enterprise SIEM feed.
+- Findings require manual verification.
+- Ollama must be installed and running locally.
+
+## 14. Key Learning Outcomes
+
+- Python automation and file handling.
+- REST API communication.
+- Local LLM integration using Ollama.
+- Security log analysis.
+- SOC alert interpretation.
+- Automated report generation.
+- Python virtual environment and dependency management.
+
+---
+
+**Project:** CyberAI-SOC  
+**Language:** Python  
+**AI Runtime:** Ollama  
+**Model:** Llama 3.2:3b  
+**API:** Local Ollama Generate API  
+**Dependency:** Requests
